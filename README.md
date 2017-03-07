@@ -15,14 +15,23 @@ of how compact they are. They are essentially just a mass on a spring and as a c
 is flowing through the spring, the mass will move up and down, wich creates a vibrating
 sensation. I have marked in the code what you'll need to change if you decide to use an
 erm. The haptic driver has 8 different modes that it can run on:
- 1) 0x00: get out of standby and use internal trigger (using GO command)
- 2) 0x01: get out of standby + use External Trigger (edge triggered)
- 3) 0x02: get out of standby + External Trigger (level triggered)
- 4) 0x03: get out of standby + PWM input and analog output
- 5) 0x04: use Audio to Vibe
- 6) 0x05: use real time playback
- 7) 0x06: perform a diagnostic - result stored in diagnostic bit in register 0x00
- 8) 0x07: run auto calibration.
+
+1) 0x00: get out of standby and use internal trigger (using GO command)
+
+2) 0x01: get out of standby + use External Trigger (edge triggered)
+
+3) 0x02: get out of standby + External Trigger (level triggered)
+
+4) 0x03: get out of standby + PWM input and analog output
+
+5) 0x04: use Audio to Vibe
+
+6) 0x05: use real time playback
+
+7) 0x06: perform a diagnostic - result stored in diagnostic bit in register 0x00
+
+8) 0x07: run auto calibration.
+
 I worked with the real time playback in order to provide a reliable system for
 detecting distance. Ive included notes in the code to help incorporate the other
 modes. There is also a breakdown of each function that is available for the
@@ -37,8 +46,10 @@ in the real world. The calculated data is then used to indicate if there should 
 feedback or not. It also determines the type of feedback that is provided.
 
 Possible applications:
+
 1) I intend on incorperating this sytem into a larger project that I'm working on. I want to add
    this to an RC car to provide feedback if it gets too close to something.
+
 2) Long term, I'd like to see this incorporated into cars. I'd like the vibration motor to provide
    feedback that isn't as distracting as noise, that will also be significant enough to get the
    user's attention. The motor will be placed in the steering wheel and the ultrasonic sensor 
