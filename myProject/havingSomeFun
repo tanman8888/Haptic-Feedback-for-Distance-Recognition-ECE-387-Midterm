@@ -6,11 +6,11 @@
 #include <Wire.h>                     //Needed for to bus the back EMF signal from the motor to the chip to make sure that it is operating correctly
 #include <Ultrasonic.h>
 #include <LiquidCrystal.h>
-Ultrasonic Ultrasonic(12, 13);
-LiquidCrystal lcd(7, 11, 5, 4, 3, 2);
+Ultrasonic Ultrasonic(12, 13);        //This sets the pins that will control the two lights on the LCD
+LiquidCrystal lcd(7, 11, 5, 4, 3, 2); //These are the pins that will control what is written on the LCD
 int distance=0;
 int average=0;
-const int buzzer = 6;
+const int buzzer = 6;                 //This is the pin used for the peizo speaker
 const int out = 10;               
 const int intensity=9;
 
