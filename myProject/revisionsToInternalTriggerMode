@@ -1,0 +1,61 @@
+//revision
+// I liked the vibration patterns in this one better because they are more noticable.
+// Internal trigger mode
+#include <Sparkfun_DRV2605L.h>
+#include <Wire.h>
+#include <Ultrasonic.h>
+Ultrasonic Ultrasonic(12, 13);
+int distance=0;
+int average=0;
+
+const int out = 6;
+
+SFE_HMD_DRV2605L HMD;
+void setup() {
+  pinMode(out,OUTPUT);
+  Serial.begin(9600);
+  HMD.Mode(0x00); //PWM INPUT 
+  HMD.MotorSelect(0x0A);
+  HMD.Library(6); //change to 7 for ERM motors 
+  HMD.begin();
+}
+
+void loop() {
+  
+ distance=Ultrasonic.distanceRead();
+ if(distance<=15&&distance>10){
+  HMD.Waveform(40,50);
+  HMD.go();
+  delay(10);
+  HMD.stop();
+  delay(10);
+  
+ }
+ else if(distance<=10&&distance>5){
+  HMD.Waveform(100,42);
+  HMD.go();
+  delay(50);
+  HMD.stop();
+  //delay(50);
+ }
+ else if(distance<=5&&distance>0){
+  HMD.Waveform(41,50);
+  HMD.go();
+  delay(30);
+  HMD.stop();
+  //delay(30);
+ }
+ else
+ HMD.stop();
+ 
+  Serial.print(distance);
+ if(distance<=15&&distance>10)
+ Serial.println("Vibrate");
+ else if(distance<=10&&distance>5)
+ Serial.println("Vibrate!");
+ else if(distance<=5&&distance>0)
+ Serial.println("VIBRATE!!");
+ else
+ Serial.println(); 
+ delay(1);
+}
