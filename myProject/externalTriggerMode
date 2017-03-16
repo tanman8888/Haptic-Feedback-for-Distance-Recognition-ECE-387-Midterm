@@ -1,0 +1,57 @@
+//en to vcc and in to 6
+// external Trigger mode
+#include <Sparkfun_DRV2605L.h>
+#include <Wire.h>
+#include <Ultrasonic.h>
+Ultrasonic Ultrasonic(12, 13);
+const int out=6;
+int distance=0;
+int average=0;
+
+
+SFE_HMD_DRV2605L HMD;
+void setup() {
+  pinMode(out,OUTPUT);
+  Serial.begin(9600);
+  HMD.Mode(0x01); //external trigger mode 
+  HMD.MotorSelect(0x0A);
+  HMD.Library(6); //change to 7 for ERM motors 
+  HMD.begin();
+}
+
+void loop() {
+  
+ distance=Ultrasonic.distanceRead();
+ if(distance<=15&&distance>10){
+  digitalWrite(out,HIGH);   // This sets the trigger pin high and since our enable is connected to VCC, when trigger is high ther motor vibrates.
+  //HMD.Waveform(100,42);  //optional if you want to use their waveform
+  delay(50);               // The higher this value, the slower it vibrates. This is because the longer it has to wait between high and low states correlates to less vertical movement for the mass. Hence it vibrates slower.
+  digitalWrite(out,LOW);  // Turning the trigger low stops the motor
+ }
+ else if(distance<=10&&distance>5){
+  digitalWrite(out,HIGH); //Is equivalent to HMD.go()
+  //HMD.Waveform(40,50);  //optional if you want to use their waveform
+  delay(10);              // The smaller the value, the faster it vibrates. altering the braking and overdriving periods is how you can create your own waveforms!
+  digitalWrite(out,LOW);  //Is equivalent to HMD.stop();
+ }
+ else if(distance<=5&&distance>0){
+  digitalWrite(out,HIGH);  //HMD.go()
+  //HMD.Waveform(41,50);  //optional if you want to use their waveform
+  delay(1);               // The larger the value, the slower it vibrates
+  digitalWrite(out,LOW);  // HMD.stop()
+ }
+ else
+ digitalWrite(out,LOW); //HMD.stop()
+ //Serial data to see when the motor should drive and what the distance is
+ Serial.print("Distance in CM: ");
+  Serial.print(distance);
+ if(distance<=15&&distance>10)
+ Serial.println("Vibrate");
+ else if(distance<=10&&distance>5)
+ Serial.println("Vibrate!");
+ else if(distance<=5&&distance>0)
+ Serial.println("VIBRATE!!");
+ else
+ Serial.println(); 
+ delay(1);  // There needs to be some sort of delay for the ultrasonic sensor to operate correctly
+}
