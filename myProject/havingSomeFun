@@ -2,8 +2,8 @@
 // In to pin 5
 // en to pin 6
 // PWM
-#include <Sparkfun_DRV2605L.h>
-#include <Wire.h>
+#include <Sparkfun_DRV2605L.h>        //All of these libraries can be found in the library manager in the Arduino IDE
+#include <Wire.h>                     //Needed for to bus the back EMF signal from the motor to the chip to make sure that it is operating correctly
 #include <Ultrasonic.h>
 #include <LiquidCrystal.h>
 Ultrasonic Ultrasonic(12, 13);
@@ -11,7 +11,7 @@ LiquidCrystal lcd(7, 11, 5, 4, 3, 2);
 int distance=0;
 int average=0;
 const int buzzer = 6;
-const int out = 10;
+const int out = 10;               
 const int intensity=9;
 
 SFE_HMD_DRV2605L HMD;
@@ -20,35 +20,35 @@ void setup() {
   pinMode(buzzer,OUTPUT);
   pinMode(intensity,OUTPUT);
   Serial.begin(9600);
-  HMD.Mode(0x03); // PWM 
-  HMD.MotorSelect(0x0A);
-  HMD.Library(6); //change to 7 for ERM motors 
-  HMD.begin();
-  lcd.begin(16, 2);
-  lcd.clear();
+  HMD.Mode(0x03);           // PWM, I decided to go with this mode because I was able to get the strongest vibrations from it
+  HMD.MotorSelect(0x0A);   //Found with the calibration mode
+  HMD.Library(6);          //change to 7 for ERM motors 
+  HMD.begin();             //Initializes the chip
+  lcd.begin(16, 2);       //Initiates the two lights
+  lcd.clear();            //Clear any display that may remain from a previous script
   // Print a message to the LCD.
   lcd.print("Distance in CM:");
 }
 
 void loop() {
-  lcd.clear();
-  lcd.print("Distance in CM:");
-   lcd.setCursor(0,1); 
- distance=Ultrasonic.distanceRead();
+  lcd.clear();                       //I had to include
+  lcd.print("Distance in CM:");      //Function to write something to the LCD
+   lcd.setCursor(0,1);               //Moves the curser on the LCD down a row
+ distance=Ultrasonic.distanceRead();   //Reads the distance from the ultrasonic sensor with the formula: D=(time*speed of sound)/2
  if(distance<=15&&distance>10){
-  digitalWrite(out,HIGH);
-  analogWrite(intensity,80);
-  lcd.print(distance);
+  digitalWrite(out,HIGH);            //This has to be high in order for the motor to drive
+  analogWrite(intensity,80);         //This writes a PWM that imitates an analog value and varies the intensity that the motor drives at
+  lcd.print(distance);              //This will display the distance on the LCD
   lcd.print(" Vibrate");
-  tone(buzzer,50);
-  delay(100);
+  tone(buzzer,50);                  //This causes the piezo speaker to make a buzz of 50Hz
+  delay(100);                //You need a delay for the ultrasonic sensor to work correclty. You cant have this too high though, because the LCD with act strangly
  }
  else if(distance<=10&&distance>5){
   digitalWrite(out,HIGH);
-  analogWrite(intensity,60);
+  analogWrite(intensity,60);  //Notice that the lower this value gets, the faster the motor drives
   lcd.print(distance);
   lcd.print(" Vibrate!");
-  tone(buzzer,100);
+  tone(buzzer,100);          //Speaker puts out a tone of 100HZ
   delay(100);
  }
  else if(distance<=5&&distance>0){
@@ -61,11 +61,11 @@ void loop() {
  }
  else{
  lcd.print(distance);
- noTone(buzzer);
- digitalWrite(out,LOW);
- analogWrite(intensity,0);
+ noTone(buzzer);             //This is needed to cutt the speakers tone
+ digitalWrite(out,LOW);      //The chip no longer puts out a signal
+ analogWrite(intensity,255); //The value that causes the motor to stop in PWM mode
  }
- delay(100);
+ delay(100);            //This set everything into place for some reason. Without it, the system fails
  Serial.print("Distance in CM:");
   Serial.print(distance);
  if(distance<=15&&distance>10)
