@@ -1,4 +1,5 @@
 // This example was found in the Sparkfun haptic driver arduino examples library
+// You can donwload it either in the arduino IDE or at https://www.sparkfun.com/products/14031
 // I've included this to demonstrate what the driver can do.
 
 // Control the vibration of an ERM motor
