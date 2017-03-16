@@ -20,7 +20,7 @@ void setup() {
   pinMode(buzzer,OUTPUT);
   pinMode(intensity,OUTPUT);
   Serial.begin(9600);
-  HMD.Mode(0x03); // INPUT 
+  HMD.Mode(0x03); // PWM 
   HMD.MotorSelect(0x0A);
   HMD.Library(6); //change to 7 for ERM motors 
   HMD.begin();
