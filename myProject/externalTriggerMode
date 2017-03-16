@@ -21,27 +21,27 @@ void setup() {
 
 void loop() {
   
- distance=Ultrasonic.distanceRead();
+ distance=Ultrasonic.distanceRead();  // Reads the distance
  if(distance<=15&&distance>10){
   digitalWrite(out,HIGH);   // This sets the trigger pin high and since our enable is connected to VCC, when trigger is high ther motor vibrates.
   //HMD.Waveform(100,42);  //optional if you want to use their waveform
-  delay(50);               // The higher this value, the slower it vibrates. This is because the longer it has to wait between high and low states correlates to less vertical movement for the mass. Hence it vibrates slower.
+  delay(50);               // The higher this value, the slower it vibrates. This is because the longer it has to wait between high and low states which correlates to less vertical movement for the mass. Hence it vibrates slower.
   digitalWrite(out,LOW);  // Turning the trigger low stops the motor
  }
  else if(distance<=10&&distance>5){
-  digitalWrite(out,HIGH); //Is equivalent to HMD.go()
+  digitalWrite(out,HIGH); //Is similar but not equivalent to HMD.go()
   //HMD.Waveform(40,50);  //optional if you want to use their waveform
   delay(10);              // The smaller the value, the faster it vibrates. altering the braking and overdriving periods is how you can create your own waveforms!
-  digitalWrite(out,LOW);  //Is equivalent to HMD.stop();
+  digitalWrite(out,LOW);  //Is similar but not equivalent to HMD.stop();
  }
  else if(distance<=5&&distance>0){
-  digitalWrite(out,HIGH);  //HMD.go()
+  digitalWrite(out,HIGH);  
   //HMD.Waveform(41,50);  //optional if you want to use their waveform
   delay(1);               // The larger the value, the slower it vibrates
-  digitalWrite(out,LOW);  // HMD.stop()
+  digitalWrite(out,LOW);  
  }
  else
- digitalWrite(out,LOW); //HMD.stop()
+ digitalWrite(out,LOW); 
  //Serial data to see when the motor should drive and what the distance is
  Serial.print("Distance in CM: ");
   Serial.print(distance);
