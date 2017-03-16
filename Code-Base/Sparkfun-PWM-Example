@@ -10,7 +10,7 @@
 #include <Sparkfun_DRV2605L.h>
 #include <Wire.h>
 
-SFE_HMD_DRV2605L HMD;
+SFE_HMD_DRV2605L HMD; *//Required for the driver's library
 const int analogInPin = A0;  // Analog input pin that the sensor is attached to
 const int analogOutPin = 9; // Analog output pin that the Haptic Motor Driver is attached to
 
@@ -20,11 +20,11 @@ int outputValue = 0;        // value output to the PWM (analog out)
 
 void setup() 
 {
-  HMD.begin();
+  HMD.begin();  *//Initializes the library
   Serial.begin(9600);
   HMD.Mode(0x03); //PWM INPUT 
-  HMD.MotorSelect(0x0A);
-  HMD.Library(7); //change to 6 for LRA motors 
+  HMD.MotorSelect(0x0A); *//selects the motor used. Can use the calabration function
+  HMD.Library(7); //Selects the library that is used for the motor. change to 6 for LRA motors 
    
 }
 void loop() 
