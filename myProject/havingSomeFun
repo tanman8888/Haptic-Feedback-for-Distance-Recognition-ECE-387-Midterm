@@ -1,0 +1,80 @@
+// Havung some fun
+// In to pin 5
+// en to pin 6
+// PWM
+#include <Sparkfun_DRV2605L.h>
+#include <Wire.h>
+#include <Ultrasonic.h>
+#include <LiquidCrystal.h>
+Ultrasonic Ultrasonic(12, 13);
+LiquidCrystal lcd(7, 11, 5, 4, 3, 2);
+int distance=0;
+int average=0;
+const int buzzer = 6;
+const int out = 10;
+const int intensity=9;
+
+SFE_HMD_DRV2605L HMD;
+void setup() {
+  pinMode(out,OUTPUT);
+  pinMode(buzzer,OUTPUT);
+  pinMode(intensity,OUTPUT);
+  Serial.begin(9600);
+  HMD.Mode(0x03); // INPUT 
+  HMD.MotorSelect(0x0A);
+  HMD.Library(6); //change to 7 for ERM motors 
+  HMD.begin();
+  lcd.begin(16, 2);
+  lcd.clear();
+  // Print a message to the LCD.
+  lcd.print("Distance in CM:");
+}
+
+void loop() {
+  lcd.clear();
+  lcd.print("Distance in CM:");
+   lcd.setCursor(0,1); 
+ distance=Ultrasonic.distanceRead();
+ if(distance<=15&&distance>10){
+  digitalWrite(out,HIGH);
+  analogWrite(intensity,80);
+  lcd.print(distance);
+  lcd.print(" Vibrate");
+  tone(buzzer,50);
+  delay(100);
+ }
+ else if(distance<=10&&distance>5){
+  digitalWrite(out,HIGH);
+  analogWrite(intensity,60);
+  lcd.print(distance);
+  lcd.print(" Vibrate!");
+  tone(buzzer,100);
+  delay(100);
+ }
+ else if(distance<=5&&distance>0){
+  digitalWrite(out,HIGH);
+  analogWrite(intensity,30);
+  lcd.print(distance);
+  lcd.print(" VIBRATE!!");
+  tone(buzzer,255);
+  delay(100);
+ }
+ else{
+ lcd.print(distance);
+ noTone(buzzer);
+ digitalWrite(out,LOW);
+ analogWrite(intensity,0);
+ }
+ delay(100);
+ Serial.print("Distance in CM:");
+  Serial.print(distance);
+ if(distance<=15&&distance>10)
+ Serial.println(" Vibrate");
+ else if(distance<=10&&distance>5)
+ Serial.println(" Vibrate!");
+ else if(distance<=5&&distance>0)
+ Serial.println(" VIBRATE!!");
+ else
+ Serial.println();
+ 
+}
