@@ -39,6 +39,6 @@ void setup() {
 void loop() {
   Serial.print("Distance in CM: ");
   // Pass INC as a parameter to get the distance in inches
-  Serial.println(Ultrasonic.distanceRead());
+  Serial.println(Ultrasonic.distanceRead());      *//Ultrasonic.distanceRead() calculates the distance in CM by D=(time*speed of sound)/2
   delay(1000);
 }
